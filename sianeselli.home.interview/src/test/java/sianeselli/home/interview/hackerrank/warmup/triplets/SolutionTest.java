@@ -1,4 +1,4 @@
-package sianeselli.home.interview.hackerrank.warmup.triplet;
+package sianeselli.home.interview.hackerrank.warmup.triplets;
 
 import static org.junit.Assert.*;
 
@@ -6,7 +6,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import sianeselli.home.interview.hackerrank.warmup.triplets.Solution;
 
 public class SolutionTest {
 	
