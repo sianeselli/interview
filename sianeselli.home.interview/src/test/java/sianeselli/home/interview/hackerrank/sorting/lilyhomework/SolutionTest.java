@@ -22,7 +22,7 @@ public class SolutionTest {
 	public void test2(){
 		int[] ar= new int[]{2,4,3,5,1};
 		int actual=Solution.solveLilyHomework(ar);
-		assertEquals(3, actual);
+		assertEquals(1, actual);
 	}
 	
 	@Test

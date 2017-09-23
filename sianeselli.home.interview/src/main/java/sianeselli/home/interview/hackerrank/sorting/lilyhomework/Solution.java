@@ -13,11 +13,11 @@ public class Solution {
         for (int i=0;i<A.length;i++){
         	map.put(A[i], i);
         }
-        return Math.min(nbSwap(A.clone(), sort(A), map),nbSwap(A.clone(), reverseSort(A), map));
+        return Math.min(nbSwap(A.clone(), sort(A), (HashMap<Integer, Integer>)map.clone()),nbSwap(A, reverseSort(A), (HashMap<Integer, Integer>) map.clone()));
     }
 
 	private static int nbSwap(int[] A, int[] sorted_A, HashMap<Integer, Integer> map) {
-		 int nbSwap=0;
+		int nbSwap=0;
 		for (int k=0;k<sorted_A.length;k++){
         	int sortedCurrentValue =sorted_A[k];
         	int currentValue = A[k];
