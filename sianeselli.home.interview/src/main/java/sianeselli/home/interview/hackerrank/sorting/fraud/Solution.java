@@ -1,7 +1,6 @@
 package sianeselli.home.interview.hackerrank.sorting.fraud;
 
 
-import java.io.*;
 import java.util.*;
 
 public class Solution {
@@ -10,86 +9,86 @@ public class Solution {
 	private static float medianValue = 0f;
 	private static boolean isOddSize = false;
 	private static LinkedList<Integer> history=new LinkedList<Integer>();
-	private static LinkedList<Integer> sortedHistory=new LinkedList<Integer>();
+	private static TreeMap<Integer, Integer> sortedHistory = new TreeMap<Integer, Integer>();
 
     static int activityNotifications(int[] expenditure, int d) {
         int nbNotif = 0; 
         initMedian(d);
         initHistory(expenditure,d);
+        initSortedHistory(expenditure,d);
         updateMedianValue();
         for (int j=d;j<expenditure.length;j++){
         	int expenseOfTheDay=expenditure[j];
-        	float expenseOfTheDayF=new Integer(expenseOfTheDay).floatValue();
-        	if (expenseOfTheDayF>=2*medianValue){
+        	if (expenseOfTheDay>=2*medianValue){
         		nbNotif++;
         	}
-        	updateHistory(expenseOfTheDay);
+        	Integer oldestExpense = updateHistory(expenseOfTheDay);
+        	updateSortedHistory(oldestExpense, expenseOfTheDay);
         	updateMedianValue();
         }
     	return nbNotif;
     }
 
-    private static void updateMedianValue() {
-		if (isOddSize){
-			medianValue = sortedHistory.get(medianIndex).floatValue();
-		}
-		else {
-			medianValue = ((float) sortedHistory.get(medianIndex).floatValue() + (float) sortedHistory.get(medianIndex-1).floatValue())/2f;
-		}
-	}
-
-	private static void initMedian(int d) {
+    private static void initMedian(int d) {
     	isOddSize = !((d%2)==0);
     	medianIndex=d/2;
-	}
-
-	private static void initHistory(int[] expenditure, int d) {
+    }
+    
+    private static void initHistory(int[] expenditure, int d) {
     	history.clear();
-    	sortedHistory.clear();
-		for (int i=0;i<d;i++){
+    	for (int i=0;i<d;i++){
     		history.offerLast(expenditure[i]);
-    	}
-		for (int j=0;j<d;j++){
-    		insertToSortedHistory(expenditure[j]);
     	}
     }
     
-	private static void updateHistory(int expenseOfTheDay) {
-		int oldestExpense= history.pollFirst();
-		history.offerLast(Integer.valueOf(expenseOfTheDay));
-			insertToSortedHistory(expenseOfTheDay);
-			int indexToRemove = sortedHistory.indexOf(oldestExpense);
-			if (indexToRemove != -1){
-				sortedHistory.remove(indexToRemove);			
+    private static void initSortedHistory(int[] expenditure, int d) {
+		sortedHistory.clear();
+		for (int i=0;i<d;i++){
+			int exp=expenditure[i];
+			Integer nbrOccurence=0;
+			if (sortedHistory.containsKey(exp)){
+				nbrOccurence=sortedHistory.get(exp);
+			}
+			nbrOccurence++;
+			sortedHistory.put(exp, nbrOccurence);
 		}
 	}
 
-
-    private static void insertToSortedHistory(int expenseOfTheDay) {
-		if (sortedHistory.isEmpty()){
-			sortedHistory.offerLast(expenseOfTheDay);
+	private static void updateMedianValue() {
+		int count=0;
+		for (Integer key : sortedHistory.keySet()){
+			count +=sortedHistory.get(key);
+			if (count>medianIndex) {					
+				medianValue=key;
+				break;
+			}
+			else if (count == medianIndex){
+				if (isOddSize){
+					medianValue=key;
+					break;
+				}
+				else {
+					medianValue=(key.floatValue() + sortedHistory.higherKey(key).floatValue())/2;
+					break;
+				}
+			}
+		}	
+	}
+    
+	private static Integer updateHistory(int expenseOfTheDay) {
+		history.offerLast(expenseOfTheDay);
+		return history.pollFirst();
+	}
+	
+	private static void updateSortedHistory(int oldestExpense,int expenseOfTheDay) {
+		sortedHistory.put(oldestExpense, sortedHistory.get(oldestExpense)-1);
+		if (sortedHistory.containsKey(expenseOfTheDay)){
+			sortedHistory.put(expenseOfTheDay, sortedHistory.get(expenseOfTheDay)+1);
 		}
 		else {
-    		//New element
-    		if (sortedHistory.peekLast()<=expenseOfTheDay){
-    			sortedHistory.offerLast(expenseOfTheDay);
-    		}
-    		else {
-    			int index=0;
-    			if (expenseOfTheDay>=medianValue){
-    				index=medianIndex;
-    				if (!isOddSize && index !=0 ){
-    					index--;
-    				}	
-    			}
-    			while (sortedHistory.get(index)<expenseOfTheDay && index < sortedHistory.size()){
-    				index++;
-    			}
-    			sortedHistory.add(index, expenseOfTheDay);
-    		}
-		}		
+			sortedHistory.put(expenseOfTheDay, 1);
+		}
 	}
-
 
 	public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
