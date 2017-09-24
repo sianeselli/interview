@@ -49,8 +49,7 @@ public class Solution {
 			if (sortedHistory.containsKey(exp)){
 				nbrOccurence=sortedHistory.get(exp);
 			}
-			nbrOccurence++;
-			sortedHistory.put(exp, nbrOccurence);
+			sortedHistory.put(exp, nbrOccurence+1);
 		}
 	}
 
@@ -60,19 +59,20 @@ public class Solution {
 			count +=sortedHistory.get(key);
 			if (count>medianIndex) {					
 				medianValue=key;
-				break;
+				return;
 			}
 			else if (count == medianIndex){
 				if (isOddSize){
 					medianValue=key;
-					break;
+					return;
 				}
 				else {
 					medianValue=(key.floatValue() + sortedHistory.higherKey(key).floatValue())/2;
-					break;
+					return;
 				}
 			}
-		}	
+		}
+		medianValue=sortedHistory.lastKey();
 	}
     
 	private static Integer updateHistory(int expenseOfTheDay) {
