@@ -23,5 +23,12 @@ public class SolutionTest {
 		assertEquals(0,Solution.activityNotifications(expenditure, d));
 	}
 	
+	@Test
+	public void test3(){
+		int[] expenditure= new int[]{2,3,4,2,3,6,8,4,5};
+		int d=5;	
+		assertEquals(2,Solution.activityNotifications(expenditure, d));
+	}
+	
 
 }
