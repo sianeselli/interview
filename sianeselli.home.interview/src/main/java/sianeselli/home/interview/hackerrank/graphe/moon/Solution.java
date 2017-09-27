@@ -5,25 +5,30 @@ import java.util.*;
 public class Solution {
 
 
-	static int solve(int n,HashMap<Integer,ArrayList<Integer>> astronautsPairsSameCountry ){
-		int nbrePairs=0;
+	static long solve(int n,HashMap<Integer,ArrayList<Integer>> astronautsPairsSameCountry ){
+		long nbrePairs=0L;
 		for (int astronaut=0;astronaut<n;astronaut++){
 			nbrePairs+=lookForPair(n,astronautsPairsSameCountry, astronaut);
 		}
 	    return nbrePairs/2;
 	}
 
-    private static int lookForPair(int n, HashMap<Integer, ArrayList<Integer>> astronautsPairsSameCountry,
+    private static long lookForPair(long n, HashMap<Integer, ArrayList<Integer>> astronautsPairsSameCountry,
 			int astronaut) {
-    	int nbrePair = 0;
-    	HashMap<Integer,Boolean> astronautsMarked= new  HashMap<Integer, Boolean>();
-    	for (int i=0;i<n;i++)
-    		astronautsMarked.put(i, false);
-    	lookForSimilarCountry(astronaut,astronautsPairsSameCountry,astronautsMarked);
-    	for (int i=0;i<n;i++) {
-    		if (!astronautsMarked.get(i)) {
-    			nbrePair++;
-    		}
+    	long nbrePair = 0;
+    	if (astronautsPairsSameCountry.get(astronaut).isEmpty()){
+    		nbrePair=n-1;
+    	}
+    	else {
+	    	HashMap<Integer,Boolean> astronautsMarked= new  HashMap<Integer, Boolean>();
+	    	for (int i=0;i<n;i++)
+	    		astronautsMarked.put(i, false);
+	    	lookForSimilarCountry(astronaut,astronautsPairsSameCountry,astronautsMarked);
+	    	for (int i=0;i<n;i++) {
+	    		if (!astronautsMarked.get(i)) {
+	    			nbrePair++;
+	    		}
+	    	}
     	}
 		return nbrePair;
 	}
