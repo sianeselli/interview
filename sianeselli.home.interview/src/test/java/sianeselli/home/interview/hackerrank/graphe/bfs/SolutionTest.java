@@ -76,4 +76,20 @@ public class SolutionTest {
 		assertArrayEquals(expected, actual);
 	}
 	
+	@Test
+	public void test5(){
+		int nbreNodes=4;
+		int startingNode=1;
+		HashMap<Integer,ArrayList<Integer>> graphe= new  HashMap<Integer, ArrayList<Integer>>();
+        for (int i=1;i<=nbreNodes;i++){
+        	graphe.put(i, new ArrayList<Integer>());
+        }
+        graphe.get(4).add(2);
+        graphe.get(1).add(2);
+		graphe.get(1).add(3);
+		int[] actual = Solution.solve(nbreNodes,graphe,startingNode);
+		int[] expected = new int[]{6,6,-1};
+		assertArrayEquals(expected, actual);
+	}
+	
 }

@@ -22,7 +22,11 @@ public class Solution {
 			}
 			int s = in.nextInt();
 			int[] res = solve(n, graphe, s);
-			System.out.println(res.toString());
+			String resS="";
+			for (int i=0;i<n-1;i++){
+				resS=resS+res[i]+" ";
+			}
+			System.out.println(resS);
 		}
 		in.close();
 	}
